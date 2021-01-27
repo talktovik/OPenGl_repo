@@ -7,10 +7,42 @@
 #include <GL/glew.h>// has to be included first
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <string.h>
+
 
 
 //Window Dimensions 
 const GLint WIDTH = 800, HEiGHT = 600;
+GLuint VAO, VBO, shader;
+
+//Vertex Shader
+static const char* vshader = "                  \n\
+#version 330                                     \n\
+layout(location = 0) in vec3 pos;                 \n\
+  void main (){                                    \n\
+    gl_position = vec4(pos.x, pos.y, pos.z ,1.0);   \n\
+";
+
+
+void CreateTriange() {
+    GLfloat vertices[] = {
+        -1.0f ,-1.0f ,0.0f , 
+        1.0f ,-1.0f ,0.0f ,
+        0.0f ,1.0f ,0.0f ,
+            };
+    glGenVertexArrays(1, &VAO); //Creating VAO
+    glBindVertexArray(VAO); // binding vertex array
+
+    glGenBuffers(1, &VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO); //binding buffer
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,0,0);
+    glEnableVertexAttribArray(0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);//unbinding buffer
+
+    glBindVertexArray(0); //Unbinding vertex array 
+}
 int main(void)
 {
     GLFWwindow* window;
@@ -24,7 +56,7 @@ int main(void)
     //Setting GLFW windows Property, OPenGL Versions 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    //Core profile = No Backwork Compactibility
+    //Core profile = No Backward Compactibility
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     //Window is pointer to GLFWwindow. (Variable)
@@ -69,7 +101,7 @@ int main(void)
         //Clear window
         //color values in float
         //alpha last parameter is about transparancy.
-        glClearColor(0.5f,1.0f, 1.0f, 1);
+        glClearColor(0.0f,1.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);// Clear the color actually
 
         glfwSwapBuffers(window);

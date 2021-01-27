@@ -296,6 +296,22 @@ Summary
 # Shader programs are created with at least a Vertex Shader and then activated before use.
 
 
+==============================================================================================================
+Vector, Matrices and Uniform Variables.
+_______________________________________
+
+Vector Overview
+________________________________________
+
+# A qunantity with magnitude and Direction
+# In other words: How far something is and in what direction
+# Can be used for lot of things, Normally to represent a direction  or something's position(E.g How far and in what direction)
+something is, relative to a certain point.
+
+Let say givem x = 4, y = 6 , z= 2;
+vector = [4,6,2]
+
+
 
 
 
