@@ -1,0 +1,374 @@
+_____________________
+Learn Curve would be...
+# Modern OPengl techniques 
+# Create windows and handle input
+# Vertex, Fragment and Geometry shaders
+# Draw 3D models 
+# USe of GLM(OPenGL Maths) Library 
+# Translate, rotate and scale models 
+# Uses of Interpolation 
+# Use Indexed draws 
+# Different types of projection
+# camera control and Movement 
+# Texture Mapping
+# phong Lighting Model 
+# Directional, Point and Spoy Lights 
+# Importing pre-made models
+# shadow mapping(Multiple light source)
+# skybox 
+#Theory Behind all of this...
+_______________________________________________
+
+What is GLEW:
+
+# OpenGL Extension Wrangler
+# Interface for OpenGL versions above 1.1
+# Load OpenGL Extensions 
+# Some Extensions are platfrom specific, GLEW can check if they exist on that platform. 
+{Platform are os on which you are running related programs }
+# Alternatives: GL3W, glLoadGen, glad, glsdk, glbinding, libepoxy, Glee.
+
+___________________________________________________
+
+Using GLEW 
+
+# #include<GL/glew.h>
+# After initialisation openGL context:
+	glewExperimental = GL_TRUE:
+# glewInit();
+# Should return Glew_OK, If it fails, it returns the error.
+# can read error with glewGetErrorString(result);
+# Check extensions exist:
+ if(!GLEW_EXT_framebuffer_object){}
+# wglew.h for windows only functions
+
+______________________________________________________
+
+GLFW 
+
+# OPenGL FrameWork(.. probably)
+# Handles Window creation and control
+# pick up and process input from the keyboard, mouse,
+  joystick and gamepad. 
+# Even allows multiple monitor support
+# Uses OpenGL context for Windows 
+________________________________________________________
+
+SDL 
+
+# Simple DirectMedia Layer.
+# Can do almost everything GLFW can do..
+# and more(Audio, Threading, Filesystems, etc.)
+# Very Popular, Especially for Indie developers.
+# Even used in level editors for source Engine and cryengine. 
+_________________________________________________________
+
+Alternatives
+
+# SFML(Simple and Fast Multimedia Library): Like SDL but with even more features.
+# ... but the opengl context is very weak. Based on 2D only graphics.
+# GLUT(OPenGL Utility ToolKit): Is no longer maintained. Try to avoid it.
+# Win32 API: For the purists.Lowest level for window creation. Only attempt if you know what
+are you doing! 
+
+_____________________________________________________________
+
+Summary
+
+# GLEW(OPenGL Extension Wrangler) lets us interface with modern opengl and handle platform-
+specific extensions safely.
+# GLFW lets us create window and OpenGL contexts, as well as handle user input.
+# SDL does all that GLFW, does and more
+# The additional features of SDL are beyond the scope of this course, so its good to use GLFW.
+_______________________________________________________________
+
+============================================================================================================================
+BEGINNER
+============================================================================================
+
+Shaders and Rendering PipeLines
+_______________________________________________________________
+ {GPU Kicks in here}
+// What us Rendering Pipleine...
+
+# The rendering Pipeline is a series of stages that take place in order
+to render an image to the screen.
+
+# Four stages are programmable via "Shaders"
+#Shaders are piece if code written in GLSL(OpenGL Shading Langauge), or 
+HLSL(High-Level Shading Langauge) if you're using Direct3D
+# GLSL is based on C.
+____________________________________________________________________
+The Rendering PipeLine Stages 
+
+# Vertex specification
+# Vertex Shader(Programmable) 
+# Tessellation (Programmable)
+# Geometry Shader (Programmable)
+# Vertex Post-Processing
+# Primitive Assembly 
+# Rasterization 
+# Fargment Shader (Programmable)
+# Per-Sample Operations
+_______________________________________________________________________
+
+Vertex Specification 
+
+# A Vertex(Pural: Vertices) is a point in space, usually defined with x,y and z
+co-ordinates.
+#A primitive is a simple shape defined using one or more vertices.
+# Usually we use triangles, But we can also use points, Lines and Quads.
+# Vertex Specifiactions: Setting up the data of the vertices for the 
+primitives we want to render.
+# Done in the application itself.
+
+
+# Uses VAOs(Vertex Array Objects) and VBOs() Vertex Buffer Object.
+# VAO defines what data a vertex has(Position, Color,texture,normals etc)
+# VBO defines the data itself(Like texture and stuff)
+# Attribute pointers define where and how these shaders can access vertex data.
+
+___________________________________________________________________________
+
+Vertex Specifiaction: Creating VAO/VBO
+
+# Generate a VAO ID 
+# Bind the VAO with that ID 
+# Generate a VBO ID 
+# Bind the VBO with that ID(now you're working on the choosen VBO attached to the choosen VAO)
+# Attach the vertex data to that VBO
+# Define the Attribute pointer Formatting 
+# Enable the attribute pointer
+# unbind the VAO and VBO, ready for the next object to bound. 
+______________________________________________________________________________
+
+Vertex Specification: Initiating Draw
+
+# Activate shader program you want to use 
+# Bind VAO of Object you want to draw
+# Call GlDrawArrays , Which Initiates the rest of the pipeline.
+
+_______________________________________________________________________________
+Vertex Shader
+
+# Handles the vertex Individually 
+# NOT optional 
+# Must store something in gl_position as it is used by the later stages.
+# Can specify additional outputs that can be picked up and used by user-defined shaders later in pipeline.
+# Inputs Consists of the vertex data itself.
+
+++++++++++++++++++++++++
+[+] vertex shader example[+]
+#version 330
+layout(location = 0 ) in vec3 pos;
+void main(){
+gl_position = vec4(pos,1.0);
+}
++++++++++++++++++++++++++
+so vertex have this thing like #version 330 which is actually version of OPengl its 3.3 
+and which is sort of commanly used.
+
+The "in" keyword there says input in layout line which is defined to be zero.
+and vec 3 is the vector containing 3 values(x,y,z) and pos is the variable.
+gl_position sets the final poistion with the vertex.
+okay so gl_position requires a vec4 value so we simply passed vec3 vector and pass 1 so it 
+sort of understands it itself.  
+________________________________________________________________________________
+
+Tessellation Shader
+
+# Allows you to divide up the data in to smaller parts.
+# Relatively new shader type, appeared in OpenGL 4.0.
+# Can be used to add higher level of detail dynamically.
+
+_________________________________________________________________________________
+Geometry Shader
+
+# Vertex Shader handles Vertices, Geometry shaders handles primitives(Group of vertices).
+# Takes primitives then "emits" thier vertices to create the given primitive, or even new primitives.
+# Can alter data given to it modify given primitives or even create new ones.
+# Can Even Alter primitive types(points, lines , tringles, etc)
+
+__________________________________________________________________________________
+Vertex Post-Processing
+
+>>>Transform Feedback
+
+# Result of vertex and geometry stages saved to buffers for later use.
+# We won't be using this most...
+
+
+>>>Clipping 
+
+# Primitives that won't be visible are removed(Don't want to draw things we can't see)
+# Positions covered from "Clip-space " to "window space" (More on this later) 
+______________________________________________________________________________________
+
+Primitive Assembly
+
+# Vertices are converted in to a series of primitives.
+# so if rendering triangles... 6 vertices would be become 3 triangles(3 vertices each)
+# Face Culling
+# Face culling is the removal of primitives that can't br seen, or are facing "away" from the viewer. 
+We simply don't want to draw something which we can't see.
+
+_________________________________________________________________________________________
+Rasterization 
+
+# Converts primitives in to "fragments".
+# Fragments are pieces of data for each pixel, Obtained from the rasterization process.
+# Fragment data will be interpolated based on its position relative to each vertex.
+
+{ Meaning of Interpolation: the insertion of something of a different nature into something else.}
+
+__________________________________________________________________________________________
+Fragment Shader
+
+# Handles data for each fragment.
+# Is optional but it's rare to not use it. Exceptions are cases where only depth or stencil data is required
+(more on depth data later.)
+# Most Important output is the color of the pixel that the fragment covers.
+# Simplest OPenGL programs usually have a vertex shader and a Fragement shader.
+
+___________________________________________________________________________________________
++++++++++++++++++++++++++++++++++++++++
+[+] Fragment Shader[+]
+
+#version 330
+out vec4 color;
+
+void main(){
+color = vec4(1.0, 1.0 ,1.0 ,1.0 );//RGBA 
+}
++++++++++++++++++++++++++++++++++++++++++
+
+out is a keyworld means output.
+
+_____________________________________________________
+Per-sample Operations
+
+# series of test to see if the fragment should be drawn
+# Most Important test : depth Test. Determines if something is in front of the point being drawn.
+# color Blending : Using defined operations, Fragment colors are "Blended" together with operlapping fragments.
+usually used to handle transparent objects.
+# fragemnt data written to currently bound Framebuffer(Usually the default buffer, More on this later)
+# Lastly, in the application code the user defines a buffer swap here, putting the newly updated framebuffer 
+to the front.
+# The pipeline is completed.
+
+_________________________________________________________
+
+On the Origin of Shaders..
+
+# Shaders programs are group of shaders(Vertex, Tessellation, Geometry,Fragment... )Associated with one another.
+# They are created in OpenGL via a series of functions.
+
+___________________________________________________________
+Creating a shader program 
+
+# creating empty program 
+# Create empty shaders 
+# Attach Shader source code to shaders 
+# Compile shaders
+# Attach shaders to the program 
+# Link Program( create executables from shaders and links them together )
+# Validate program(Optional but highly advised because debugging shaders is a pain )
+
+_______________________________________________________________
+Using a shader Program 
+
+# When you create a shader, an ID is given(Like with VAOs, VBOs)
+# simply call glUseProgram(shaderID)
+#All draw call from then on will use that shader,glUseProgram is used on a new shaderID, or on "0"(Meaning no shader)
+
+________________________________________________________________
+
+Summary 
+
+# Rendering Pipeline consists of several Pipelines
+# Four stages of programmable via shaders(Vertex, Tessellation, Geometry, Fragment).
+# Vertex shader is mandatory 
+# Vertices: User-Defined points in space.
+# Primitives: Groups of vertices that make a simple shape(Usually a triangle)
+# Fragments: Per-pixel data created from primitives.
+# Vertex Array Object(VAO): What data a vertex has.
+# Vertex Buffer Object(VBO): The Vertex data itself.  
+# Shader programs are created with at least a Vertex Shader and then activated before use.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
