@@ -9,19 +9,27 @@
 #include <iostream>
 #include <string.h>
 #include<stdlib.h>
-
-
+#include<glm/glm.hpp>//glm included, relative path !
+#include<glm/gtc/matrix_transform.hpp>
+#include<glm/gtc/type_ptr.hpp>
 
 //Window Dimensions 
 const GLint WIDTH = 800, HEiGHT = 600;
-GLuint VAO, VBO, shader , uniformXMove;
+
+const float toRadians = 3.14159265f/ 180.0f ;
+GLuint VAO, VBO, shader , uniformModel;
 
 bool direction = true;
 float trioffset = 0.0f;
 float triMAXoffset = 0.7f;
-float triIncriment = 0.5f;//defines the speed.
+float triIncriment = 0.0005f;//defines the speed.
 
-
+float curAngle = 0.0f;
+bool sizeDirection = true;
+//bool cursize = 0.4;
+float curSize = 0.4f;
+float maxSize = 0.8;
+float minSize = 0.1f;
 //Vertex Shader
 // Version 330 is glsl version
 // vec3 holds 3 position where vec4 holds 4 values.
@@ -30,11 +38,11 @@ static const char* vshader = "                                                \n
                                                                               \n\
 layout (location = 0) in vec3 pos;											  \n\
                                                                               \n\
-uniform float xMove;                                                          \n\
+uniform mat4 model;                                                          \n\
                                                                               \n\
 void main()                                                                   \n\
 {                                                                             \n\
-    gl_Position = vec4(0.4 *pos.x + xMove, 0.4 *pos.y, pos.z, 1.0);	  \n\
+    gl_Position = model * vec4( pos.x, pos.y, pos.z, 1.0);	          \n\
 }";
 
 //Fragment shader
@@ -113,7 +121,8 @@ void Compileshader() {
         return;
 
     }
-    uniformXMove = glGetUniformLocation(shader, "xMove");
+
+    uniformModel = glGetUniformLocation(shader, "model"); //Loaction 
 
 }
 
@@ -205,6 +214,23 @@ int main(void)
             direction = !direction;
         }
 
+        curAngle += 0.1f;
+        if (curAngle >= 360); {
+        
+            curAngle -= 360;
+        }
+        if (sizeDirection) {
+        
+            curSize += 0.0001f;
+        }
+        else {
+            curSize -= 0.0001f;
+        }
+
+        if (curSize >= maxSize || curSize <= minSize) {
+            sizeDirection = !sizeDirection;
+        }
+
 
         //Clear window
         //color values in float
@@ -214,8 +240,21 @@ int main(void)
 
         glUseProgram(shader);
         
+        glm::mat4 model; // mat4 = 4x4 matrix
+
+        //The way we place this three statement will create different outcomes.
+
+        //model = glm::rotate(model, curAngle * toRadians, glm::vec3(0.0f, 0.0f, 1.0f));
+        model = glm::translate(model, glm::vec3(trioffset, 0.0f, 0.0f));
+        
+        model = glm::scale(model, glm::vec3(curSize, 0.4f, 1.0f));
+        
+    
+        
+
         //UNIFORM
-        glUniform1f(uniformXMove,trioffset);
+
+        glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 3);
