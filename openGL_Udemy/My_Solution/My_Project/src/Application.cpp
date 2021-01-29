@@ -17,12 +17,12 @@
 const GLint WIDTH = 800, HEiGHT = 600;
 
 const float toRadians = 3.14159265f/ 180.0f ;
-GLuint VAO, VBO,IBO, shader , uniformModel;
+GLuint VAO, VBO,IBO, shader , uniformModel, uniformProjection;
 
 bool direction = true;
 float trioffset = 0.0f;
 float triMAXoffset = 0.7f;
-float triIncriment = 0.0005f;//defines the speed.
+float triIncriment = 0.00005f;//defines the speed.(Translation speed )
 
 float curAngle = 0.0f;
 bool sizeDirection = true;
@@ -40,10 +40,11 @@ layout (location = 0) in vec3 pos;											  \n\
   out vec4 vCol  ;                                                                          \n\
                                                                               \n\
 uniform mat4 model;                                                          \n\
+uniform mat4 projection;                                                          \n\
                                                                               \n\
 void main()                                                                   \n\
 {                                                                             \n\
-    gl_Position = model * vec4( pos.x, pos.y, pos.z, 1.0);	                \n\
+    gl_Position = projection * model * vec4( pos.x, pos.y, pos.z, 1.0);	                \n\
      vCol = vec4(clamp(pos,0.0f,1.0f),1.0f)  ;                           \n\
 }";
 
@@ -127,6 +128,7 @@ void Compileshader() {
     }
 
     uniformModel = glGetUniformLocation(shader, "model"); //Loaction 
+    uniformProjection = glGetUniformLocation(shader, "projection"); //Loaction 
 
 }
 
@@ -219,6 +221,8 @@ int main(void)
     CreateTriange();
     Compileshader();
 
+    glm::mat4 projection = glm::perspective(45.0f,(GLfloat)bufferwidth/(GLfloat)bufferheight,0.1f,100.0f); 
+
     //Loop untill window closesd
     while (!glfwWindowShouldClose(window)) {
         //get+ Handle input events
@@ -265,9 +269,8 @@ int main(void)
         glm::mat4 model; // mat4 = 4x4 matrix
 
         //The way we place this three statement will create different outcomes.
-
-         model = glm::rotate(model, curAngle * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
-      //   model = glm::translate(model, glm::vec3(trioffset, 0.0f, 0.0f));
+        model = glm::translate(model, glm::vec3(0.0f,trioffset, -2.5f));
+       // model = glm::rotate(model, curAngle * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
         model = glm::scale(model, glm::vec3(0.4f, 0.4f, 1.0f));
         
     
@@ -276,6 +279,7 @@ int main(void)
         //UNIFORM
 
         glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+        glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
 
         glBindVertexArray(VAO);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);

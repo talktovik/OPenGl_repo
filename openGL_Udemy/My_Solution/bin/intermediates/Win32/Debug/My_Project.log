@@ -1,4 +1,4 @@
 ﻿  Application.cpp
 E:\OpenGl\OPenGl_repo\openGL_Udemy\My_Solution\My_Project\src\Application.cpp(30,20): warning C4305: 'initializing': truncation from 'double' to 'float'
-E:\OpenGl\OPenGl_repo\openGL_Udemy\My_Solution\My_Project\src\Application.cpp(240,29): warning C4390: ';': empty controlled statement found; is this the intent?
+E:\OpenGl\OPenGl_repo\openGL_Udemy\My_Solution\My_Project\src\Application.cpp(244,29): warning C4390: ';': empty controlled statement found; is this the intent?
   My_Project.vcxproj -> E:\OpenGl\OPenGl_repo\openGL_Udemy\My_Solution\bin\Win32\Debug\My_Project.exe
