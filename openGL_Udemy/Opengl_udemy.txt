@@ -360,6 +360,136 @@ Summary
 # Uniform variables pass global data to shaders
 # Need to obtain uniform's location then bind data to it.
 
+========================================================================================
+INTERPOLATION 
+
+# per-vertex attributes passed on are "interpolated" using the other values on the primitive
+# In other words: A weighted average of the three vertices on a triangle is passed on
+# Fragment shader picks up the interpolated value and uses that.
+# The Value is effectively an estimate of what the value should be at that position, had we defined ourself.
+
+# Classic Example: Using position co-ordinates as RGB value
+# Top of triangle is green because in (x,y,z) the y is high.
+# Convert to RGB , then G is(green) is high
+# Midways between red and green areas, colors blend, but we didn't define that vertex position.
+# The value was interpolated.
+
+# Interpolation is used for quickly and accurately estimating values without defining them.
+# Can be used for interpolating Texture Co_ordinates when mapping textures.
+# Can be used for interpolating Normal Vectors when Handeling Lighting.
+# Especially useful in Phong Shading to create the illusion of smooth/rounded surfaces.
+
+_____________________________________________________________________________________________
+
+Indexed Draws
+
+# Define Vertices to draw a cube.
+# Cube will Consist of 12 triangles(Two for each phase).
+# 12 x 3 Vertices per triangle = 36 vertices 
+# but a cube only has 8 vertices 
+# Some will be difined mutipletimes, Very messy !
+
+# Instead, why not define the 8 vertices of the cube.
+# Number them 1 to 8(or 0 to 7 in C++)
+# And Refer to them by thier number.
+
+# Just bind them to and Element array buffer in the VAO glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,IBO);
+# Sometimes they're called an element instead of an index, Both means the same thing.
+
+# CAn still be a bit of a pain ...
+# solution: #3 Modelling Software! 
+# Load in models
+
+__________________________________________________________________________________________________	
+
+PROJECTIONS
+
+# Used to convert from "View Space" to "Clip Space"
+# Can be used to give the scene a 3D look.
+# Alternatively can be used to create a 2D style for projects that require it.
+# Need to understand co-ordinate systems.
+
+PROJECTIONS: CO-ORDINATE SYSTEMS
+
+# LOCAL SPACE: Raw positions of each vertex drawn relative to origin, Multiply by Model Matrix to get...
+# World Space: Position of vertex in the world itself if camera is assumed to be positioned at the origin.
+Multiply be view matrix to get...
+# CLIP SCAPE: Position of vertex in the world, relative to the camera position and orientation, as viewed as 
+in the area not to be "Clipped" from the final output.
+# Screen Space: After clipping takes place, The final image is created and placed on the co-ordinate system of the window 
+itself.
+
+# To CReate clip we defined an area(Frustum) of what is not to be clipped with a projection matrix.
+# Two commonly used types of projection:
+	Orthographic(Most comman in 2D applications )
+	Perspective (Most Comman in 3D applications )
+
+Projections: Orthographic 
+# The Frustrum of orthographic projections is cuboid.
+# Everything between the Far plane and near plane is kept.Rest is discarded.
+# Parallel nature of orthographic means 3D depth is not visible.
+# Move object closer/Further and it won't chage size on screen.
+
+
+PROJECTIONS : PERSPECTIVE
+
+# The Frustrum for orthographic projections is a 'truncated pyramid'.
+# Each pixel on near plane diverges at an angle to reach matching point on far plane.
+# Gives the illusion of depth.
+
+
+>>> Comparison
+
+# Orthographic: The one Furthest back looks to be the same size as the one at the front, implying it's actually 
+	larger.
+# Perspective: The one at the back look smaller that the one at the front, due to it being more distant, 
+	as it should.
+
+
+PROJECTIONS WITH GLM AND OPENGL
+
+# glm::mat proj = glm::perspective(fov,aspect,near,far);
+# fov = field-of-view, the angle of frustum
+# aspect = aspect ratio of the viewpoint(usually worth its width divided with by its height)
+# near =  distance of the near plane
+# far = distance of the far plane
+# bind the gievn matrix to a uniform in the shader.
+# gl_Position = projection * view * model * vec4(pos,1.0)
+
+
+Summary 
+
+# Interpolation calculates weighted values between vertices during rasterization 
+# Indexed Draws let us define vertices once then reference them to draw them
+# projection Matrices convert view spece in to clip space 
+# Orthographic Projections are used for 2D applications and don't allow depth perception.
+# Perspective projections are for 3D Applicxations and create the illusion of depth .
+# GLM has glm::perspective function perspective matrices.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
