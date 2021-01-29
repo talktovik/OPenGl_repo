@@ -467,6 +467,10 @@ Summary
 # GLM has glm::perspective function perspective matrices.
 
 
+_____________________________________________________________________________________________________________
+Creating the Camera and other sync entities
+
+
 
 
 
