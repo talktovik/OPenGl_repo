@@ -316,15 +316,49 @@ vector = [4,6,2]
 
 ___________________________________________
 Interpolation Remaining
+-
+-
+-
+====================================================================================================
+GLM 
+
+# GLM is a free library for handeling comman mathematical operations used in OpenGl
+# Most Importantly : Vectors and Matrices 
+# Uses vec4 (vector with 4 values) and mat4(4X4) types.
+# Simple code:
+	glm::mat4 trans;
+	trans = glm::translate(trans,glm::vec3( 1,0f, 2.0f, 3.0f));
+
+======================================================================================================
+UNIFORM VARIBLES
+# type of variable in shaders
+# Uniforms are the values global to the shader that aren't associated with particular vertex.
+# Each uniform has a location ID in the same shader.
+# Need to find the location so we can bind a value to it.
+	 int location= glGetUniformLcation(shaderID,"uniformvariablename")
+# Now we can bind a value to that location.
+	glUniform1f(location,3.5f)
+# Make sure you have set the appropriate shader program in use.
+# Different Variable types:
+	glUniform1f - Single floating value 
+	glUniform1i - Single integer value 
+	glUniform4f - vec4 of floating value
+	glUniform4fv - vec4 of floating values, values specified by pointer
+	glUniformMatrix4fv - mat4 of floating values, values specified by pointer 
+	and so on.....
+
+_____________________________________________________________________________________________________
+Summary 
 
 
-
-
-
-
-
-
-
+# Vectors are directions and positions on space
+# Matrices are 2 dimensional array of data used for calculating transforms and various other functions.
+# Vectors are a type of matrix and can have these functions applied to them
+# The order of transform operation matters
+# Lasr matrix operation applied happens first.
+# GLM is used to handle matrix calculations
+# Uniform variables pass global data to shaders
+# Need to obtain uniform's location then bind data to it.
 
 
 

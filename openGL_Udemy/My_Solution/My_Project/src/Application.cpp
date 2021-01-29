@@ -8,12 +8,19 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <string.h>
+#include<stdlib.h>
 
 
 
 //Window Dimensions 
 const GLint WIDTH = 800, HEiGHT = 600;
-GLuint VAO, VBO, shader;
+GLuint VAO, VBO, shader , uniformXMove;
+
+bool direction = true;
+float trioffset = 0.0f;
+float triMAXoffset = 0.7f;
+float triIncriment = 0.5f;//defines the speed.
+
 
 //Vertex Shader
 // Version 330 is glsl version
@@ -23,9 +30,11 @@ static const char* vshader = "                                                \n
                                                                               \n\
 layout (location = 0) in vec3 pos;											  \n\
                                                                               \n\
+uniform float xMove;                                                          \n\
+                                                                              \n\
 void main()                                                                   \n\
 {                                                                             \n\
-    gl_Position = vec4(pos.x, pos.y, pos.z, 1.0);				  \n\
+    gl_Position = vec4(0.4 *pos.x + xMove, 0.4 *pos.y, pos.z, 1.0);	  \n\
 }";
 
 //Fragment shader
@@ -95,7 +104,7 @@ void Compileshader() {
 
 
     //validating the shader code 
-    glValidateProgram(shader);
+    glValidateProgram(shader); 
     //checking the error (Validation)
     glGetProgramiv(shader, GL_VALIDATE_STATUS, &result);
     if (!result) {
@@ -104,6 +113,8 @@ void Compileshader() {
         return;
 
     }
+    uniformXMove = glGetUniformLocation(shader, "xMove");
+
 }
 
 void CreateTriange() {
@@ -183,6 +194,17 @@ int main(void)
         // this will care about user interactivity.
         glfwPollEvents();
 
+        if (direction) {
+        
+            trioffset += triIncriment;
+        }
+        else {
+            trioffset -= triIncriment;
+        }
+        if (abs(trioffset) >= triMAXoffset) {
+            direction = !direction;
+        }
+
 
         //Clear window
         //color values in float
@@ -191,6 +213,9 @@ int main(void)
         glClear(GL_COLOR_BUFFER_BIT);// Clear the color actually
 
         glUseProgram(shader);
+        
+        //UNIFORM
+        glUniform1f(uniformXMove,trioffset);
 
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 3);
