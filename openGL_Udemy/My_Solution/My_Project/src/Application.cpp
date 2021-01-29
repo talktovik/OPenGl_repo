@@ -266,7 +266,7 @@ int main(void)
 
         glUseProgram(shader);
         
-        glm::mat4 model; // mat4 = 4x4 matrix
+         glm::mat4 model; // mat4 = 4x4 matrix
 
         //The way we place this three statement will create different outcomes.
         model = glm::translate(model, glm::vec3(0.0f,trioffset, -2.5f));
