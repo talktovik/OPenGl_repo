@@ -172,24 +172,4 @@ int main(void)
     }
     return 0;// don't put this fucking return inside the gameloop
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }//main function ends here.
