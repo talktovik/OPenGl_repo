@@ -1,5 +1,4 @@
-﻿  Shader.cpp
-LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
-LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
-glew32s.lib(glew.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'glew32s.lib(glew.obj)' or at 'E:\OpenGl\OPenGl_repo\openGL_Udemy\My_Solution\bin\Win32\Debug\vc120.pdb'; linking object as if no debug info
+﻿  Application.cpp
+E:\OpenGl\OPenGl_repo\openGL_Udemy\My_Solution\My_Project\src\Application.cpp(36,20): warning C4305: 'initializing': truncation from 'double' to 'float'
+E:\OpenGl\OPenGl_repo\openGL_Udemy\My_Solution\My_Project\src\Application.cpp(181,29): warning C4390: ';': empty controlled statement found; is this the intent?
   My_Project.vcxproj -> E:\OpenGl\OPenGl_repo\openGL_Udemy\My_Solution\bin\Win32\Debug\My_Project.exe

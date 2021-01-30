@@ -50,9 +50,9 @@ void Shader::CompileShader(const char* vertexCode, const char* fragmentCode) {
         return;
 
     }
-
-    uniformModel = glGetUniformLocation(shaderID, "model"); //Loaction 
     uniformProjection = glGetUniformLocation(shaderID, "projection"); //Loaction 
+    uniformModel = glGetUniformLocation(shaderID, "model"); //Loaction 
+   
 
 }
 

@@ -15,6 +15,7 @@
 #include<vector>
 #include "Mesh.h"
 #include "Shader.h"
+#include"Header.h"
 
 
 //Window Dimensions 
@@ -23,7 +24,6 @@ const GLint WIDTH = 800, HEiGHT = 600;
 const float toRadians = 3.14159265f/ 180.0f ;
 std::vector<Mesh*>meshList;
 std::vector<Shader>shaderList;
-GLuint VAO, VBO,IBO, shader , uniformModel, uniformProjection;
 
 bool direction = true;
 float trioffset = 0.0f;
@@ -156,7 +156,7 @@ int main(void)
     CreateObjects();
     CreateShader();
 
-    GLuint uniformProjection = 0, unifromModel = 0;
+    GLuint uniformProjection = 0, uniformModel = 0;
 
     glm::mat4 projection = glm::perspective(45.0f,(GLfloat)bufferwidth/(GLfloat)bufferheight,0.1f,100.0f); 
 
@@ -203,7 +203,7 @@ int main(void)
 
         shaderList[0].UseShader();
         uniformModel = shaderList[0].GetModelLocation();
-        uniformModel = shaderList[0].GetProjectionLocation();
+        uniformProjection = shaderList[0].GetProjectionLocation();
 
 
         
