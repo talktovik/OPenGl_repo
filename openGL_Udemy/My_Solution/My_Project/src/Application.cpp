@@ -38,34 +38,10 @@ float minSize = 0.1f;
 //Vertex Shader
 // Version 330 is glsl version
 // vec3 holds 3 position where vec4 holds 4 values.
-static const char* vshader = "                                                \n\
-#version 330                                                                  \n\
-                                                                              \n\
-layout (location = 0) in vec3 pos;											  \n\
-                                                                             \n\
-  out vec4 vCol  ;                                                                          \n\
-                                                                              \n\
-uniform mat4 model;                                                          \n\
-uniform mat4 projection;                                                          \n\
-                                                                              \n\
-void main()                                                                   \n\
-{                                                                             \n\
-    gl_Position = projection * model * vec4( pos.x, pos.y, pos.z, 1.0);	                \n\
-     vCol = vec4(clamp(pos,0.0f,1.0f),1.0f)  ;                           \n\
-}";
+static const char* vshader = "Shaders/shader.vert";
 
 //Fragment shader
-static const char* fshader = "                                                \n\
-#version 330                                                                  \n\
-                                                                              \n\
- in vec4 vCol ;                                                                          \n\
-                                                                              \n\
-out vec4 colour;                                                               \n\
-                                                                              \n\
-void main()                                                                   \n\
-{                                                                             \n\
-    colour = vCol;                                         \n\
-}";
+static const char* fshader = "Shaders/shader.frag";
 
 void CreateObjects() {
 
@@ -99,7 +75,7 @@ void CreateObjects() {
 
 void CreateShader() {
     Shader* shader1 = new Shader();
-    shader1->CreateFromString(vshader, fshader);
+    shader1->createFromFiles(vshader, fshader);
     shaderList.push_back(*shader1);
 
 }
@@ -207,7 +183,7 @@ int main(void)
 
 
         
-         glm::mat4 model; // mat4 = 4x4 matrix
+         glm::mat4 model; // mat4 = 4x4 matrix (Identity Matrix)
 
         //The way we place this three statement will create different outcomes.
         model = glm::translate(model, glm::vec3(trioffset,0.0f, -2.5f));
@@ -224,7 +200,7 @@ int main(void)
         meshList[0]->RenderMesh();
 
         //I guess This is the way to call for second obj
-        model = glm::mat4(1.0f);
+        model = glm::mat4(1.0f); //This Is actually a new Identity Matrix, And you can't redifine it like we did earlier.
         model = glm::translate(model, glm::vec3(-trioffset, 1.0f, -2.5f));
         model = glm::scale(model, glm::vec3(0.4f, 0.4f, 1.0f));
         glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
