@@ -2,7 +2,4 @@
 E:\OpenGl\OPenGl_repo\openGL_Udemy\My_Solution\My_Project\src\Window.h(17,36): warning C4244: 'return': conversion from 'GLint' to 'GLfloat', possible loss of data
 E:\OpenGl\OPenGl_repo\openGL_Udemy\My_Solution\My_Project\src\Window.h(18,37): warning C4244: 'return': conversion from 'GLint' to 'GLfloat', possible loss of data
 E:\OpenGl\OPenGl_repo\openGL_Udemy\My_Solution\My_Project\src\Window.cpp(64): warning C4715: 'Window::Initialise': not all control paths return a value
-LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
-LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
-glew32s.lib(glew.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'glew32s.lib(glew.obj)' or at 'E:\OpenGl\OPenGl_repo\openGL_Udemy\My_Solution\bin\Win32\Debug\vc120.pdb'; linking object as if no debug info
   My_Project.vcxproj -> E:\OpenGl\OPenGl_repo\openGL_Udemy\My_Solution\bin\Win32\Debug\My_Project.exe

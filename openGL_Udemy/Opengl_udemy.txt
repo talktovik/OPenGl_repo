@@ -466,17 +466,102 @@ Summary
 # Perspective projections are for 3D Applicxations and create the illusion of depth .
 # GLM has glm::perspective function perspective matrices.
 
+===============================================================================================================
+THE CAMERA AND USER INPUT
+
+Camera/View Space
+
+# The Camera processes the scene as seen in the "view space"
+# View space is the or-ordinate system which has each vertex as seen from the camera.
+# USe a view Matrix to convert from World Space to view Space
+# View Matrix Requires 4 values: Camera Position, Direction, Right and Up
+# Camera Position: Simply the position of camera 
+# Drection : The direction the camera is looking in
+# Direction vector actually points in the opposite direction of the intutive "direction".
+# Right : Vector facing right of the camera, defines the x axis. Can calculate by doing cross product of the Direction and UP vector
+	[0,1,0]
+# UP: upwards relative to where camera is facing.
+	 Can calculate by doing cross product of direction and right Vectors.
+# places values in the matrices to calculate View matrices.
+# View Matrix applied to a vertex will convert it to view space.
+# Fortunately, GLM has a function to do all of this.
+# glm::mat4 viewMarix = glm::lookAT(position,target,up);
+
+___________________________________________________________________________________________________________
+GLM lookAT
+
+
+ 
+# glm::lookAT(position,target,up);
+#position = camera position 
+# target = point for camera to look at
+# target is usually defined as the cameras position with a dorection added on to it. Effectively saying 
+"look in front".
+# The upwards direction of the world, not the camera. lokkAt uses this to calculate 'right' and 'up' relative
+to the camera.
+
+_______________________________________________________________________________________________________
+Using the View Matrix
+
+# bind the view Matrix to a uniform on the shader.
+# Apply it between the projectuin and model matrices.
+# gl_position = projection * view * model * vec4(pos,10);
+# remember this :::: ORDER MATTERS
+# Multiplying the projection, View and model matrices in a different order will not work !!!
+
+
+
+____________________________________________________________________________________________________________
+INPUT: Moving the Camera
+
+# Just need tp change camera position.
+# GLFW: GLFWGETKEY(window, GLFW_KET_W)
+
+
+# SDL : check for even, check if keydown even, check which key is pressed.
+
+# Then add value to camera position while key held
+# Different CPU Speeds ??
+# Will move fast on some computers and slow on others!
+
 
 _____________________________________________________________________________________________________________
-Creating the Camera and other sync entities
+INPUT DATA
+# basic IDEA : Check how much time passed since last loop, apply maths based on this to keep
+consistent speeds
+
+# deltaTime: CurrentTime - lastTime;
+	lastTime = CurrentTime;
+
+#Then Multiply the camera's movement speed by the deltaTime.
+	there is some source in the slide   
+_____________________________________________________________________________________________________________
+Input: Turning
+
+# three types of angle.
+# pitch Looking up and down
+# Yaw: looking left amd right
+# roll: Like a plabe doing a barrel roll
+# Pitching needs tp rotate the view up and down using an axis relative to the yaw.
+# Yaw will only ever rotate us around our axis(Y axis)
+__________________________
 
 
+Input:Turing-Pitch
 
+# Pitching axis will depend on yaw.. need to update x,y,z
+ y = sin(pitch)
+x = cos(pitch)
+z = cos(pitch)
 
+Remember: we're updating x and z because the yaw could have the camera facing along a combination of them.
 
+Input: Turing- Yaw
 
-
-
+We could base yaw on pitch too, but would be unrealistic for this kind of simulation so we won't.
+# therefore: We only update x and z.
+# x = cos(yaw)
+# z = sin(yaw)
 
 
 
