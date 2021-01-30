@@ -1,70 +1,71 @@
 #include "Window.h"
 
-
-
-
-Window::Window() {
+Window::Window()
+{
 	width = 800;
 	height = 600;
 }
 
-Window::Window(GLint windowWidth, GLint windowHeight) {
+Window::Window(GLint windowWidth, GLint windowHeight)
+{
 	width = windowWidth;
 	height = windowHeight;
 }
 
-int Window::Initialise() {
-    GLFWwindow* window;
+int Window::Initialise()
+{
+	if (!glfwInit())
+	{
+		printf("Error Initialising GLFW");
+		glfwTerminate();
+		return 1;
+	}
 
-    /* Initialize the library */
-    if (!glfwInit()) {
-        std::cout << "GLFW linking Failed" << std::endl;
-        glfwTerminate();
-        return -1;
-    }
-    //Setting GLFW windows Property, OPenGL Versions 
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    //Core profile = No Backward Compactibility
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    //Window is pointer to GLFWwindow. (Variable)
-    /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(width, height, "Hello World", NULL, NULL);
-    if (!window)
-    {
-        std::cout << "GLFW WINDOW CREATION FAILED" << std::endl;
-        glfwTerminate();
-        return -1;
-    }
+	// Setup GLFW Windows Properties
+	// OpenGL version
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	// Core Profile
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	// Allow forward compatiblity
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-    // Get Buffer Size Information
-    int bufferwidth, bufferheight;
-    glfwGetFramebufferSize(window, &bufferwidth, &bufferheight);
-    // set context for GLEW to use.
-    // Means if you have multiple windows the you can choose the....  
-    //....working window like that
-    glfwMakeContextCurrent(window);
+	// Create the window
+	mainWindow = glfwCreateWindow(width, height, "Test Window", NULL, NULL);
+	if (!mainWindow)
+	{
+		printf("Error creating GLFW window!");
+		glfwTerminate();
+		return 1;
+	}
 
-    //Allow modern extension the features
-    //This glewExperimental unleashes the power to use more exiciting things
-    //.... to use in opengl.
-    glewExperimental = GL_TRUE;
+	// Get buffer size information
+	glfwGetFramebufferSize(mainWindow, &bufferWidth, &bufferHeight);
 
-    if (glewInit() != GLEW_OK) {
-        printf("the linking failed of Glew");
-        glfwDestroyWindow(window);
-        glfwTerminate();
-        return 1;
-    }
-    glEnable(GL_DEPTH_TEST); //Depth test enable
-    //Set Viewport
-    glViewport(0, 0, bufferwidth, bufferheight);
+	// Set the current context
+	glfwMakeContextCurrent(mainWindow);
 
+	// Allow modern extension access
+	glewExperimental = GL_TRUE;
+
+	GLenum error = glewInit();
+	if (error != GLEW_OK)
+	{
+		printf("Error: %s", glewGetErrorString(error));
+		glfwDestroyWindow(mainWindow);
+		glfwTerminate();
+		return 1;
+	}
+
+	glEnable(GL_DEPTH_TEST);
+
+	// Create Viewport
+	glViewport(0, 0, bufferWidth, bufferHeight);
 }
 
-Window::~Window() {
-    glfwDestroyWindow(window);
-    glfwTerminate();
 
+Window::~Window()
+{
+	glfwDestroyWindow(mainWindow);
+	glfwTerminate();
 }

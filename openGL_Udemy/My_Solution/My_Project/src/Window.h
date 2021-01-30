@@ -1,7 +1,7 @@
 #pragma once
-#include<GL/glew.h>
+
 #include<stdio.h>
-#include<iostream>
+#include<GL/glew.h>
 #include<GLFW\glfw3.h>
 
 
@@ -17,12 +17,12 @@ public:
 	GLfloat getBufferWidth() { return bufferWidth; }
 	GLfloat getBufferHeight() { return bufferHeight; }
 
-	bool getShouldClose() { return glfwWindowShouldClose(window);}
+	bool getShouldClose() { return glfwWindowShouldClose(mainWindow);}
 
-	void swapBuffers() { return glfwSwapBuffers(window); }
+	void swapBuffers() { return glfwSwapBuffers(mainWindow); }
 
 	~Window();
-	GLFWwindow* window;
+	GLFWwindow* mainWindow;
 
 	GLint width, height;
 	GLint bufferWidth, bufferHeight;

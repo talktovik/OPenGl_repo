@@ -21,7 +21,7 @@
 
 //Window Dimensions 
 const GLint WIDTH = 800, HEiGHT = 600;
-Window window;
+Window mainWindow;
 
 const float toRadians = 3.14159265f/ 180.0f ;
 std::vector<Mesh*>meshList;
@@ -83,18 +83,18 @@ void CreateShader() {
 }
 int main(void)
 {
-    window = Window(800, 600);
-    window.Initialise();
+    mainWindow = Window(800, 600);
+    mainWindow.Initialise();
 
     CreateObjects();
     CreateShader();
 
     GLuint uniformProjection = 0, uniformModel = 0;
      
-    glm::mat4 projection = glm::perspective(45.0f,window.getBufferWidth() / window.getBufferHeight() ,0.1f,100.0f); 
+    glm::mat4 projection = glm::perspective(45.0f,mainWindow.getBufferWidth() / mainWindow.getBufferHeight() ,0.1f,100.0f); 
 
     //Loop untill window closesd
-    while (!window.getShouldClose())
+    while (!mainWindow.getShouldClose())
     {
         //get+ Handle input events
         // this will care about user interactivity.
@@ -166,7 +166,7 @@ int main(void)
         
         glUseProgram(0);
 
-        window.swapBuffers();
+        mainWindow.swapBuffers();
     
         
     }
