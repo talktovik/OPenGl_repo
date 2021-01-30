@@ -12,11 +12,17 @@
 #include<glm/glm.hpp>//glm included, relative path !
 #include<glm/gtc/matrix_transform.hpp>
 #include<glm/gtc/type_ptr.hpp>
+#include<vector>
+#include "Mesh.h"
+#include "Shader.h"
+
 
 //Window Dimensions 
 const GLint WIDTH = 800, HEiGHT = 600;
 
 const float toRadians = 3.14159265f/ 180.0f ;
+std::vector<Mesh*>meshList;
+std::vector<Shader>shaderList;
 GLuint VAO, VBO,IBO, shader , uniformModel, uniformProjection;
 
 bool direction = true;
@@ -61,78 +67,7 @@ void main()                                                                   \n
     colour = vCol;                                         \n\
 }";
 
-void AddShaders(GLuint theProgram, const char* shaderCode, GLenum shaderType) {
-    GLuint theShader = glCreateShader(shaderType);
-
-    const GLchar* theCode[1];
-    theCode[0] = shaderCode;
-    GLint codeLength[1];
-    codeLength[0] = strlen(shaderCode);
-
-    glShaderSource(theShader, 1, theCode, codeLength);
-    glCompileShader(theShader);
-
-    GLint result = 0;
-    GLchar eLog[1024] = { 0 };
-
-    glGetShaderiv(theShader,GL_COMPILE_STATUS,&result);
-    if (!result) {
-        glGetShaderInfoLog(theShader, sizeof(eLog), NULL, eLog);
-        printf("ERROR COMPILING THE %d shader: '%s'\n", shaderType, eLog);
-        return;
-    }
-
-    glAttachShader(theProgram, theShader);
-
-
-}
-
-void Compileshader() {
-
-    shader = glCreateProgram();
-    if (!shader) {
-        printf("Error Creating Shader program");
-        return;
-    }
-    
-    //calling the shader with parameters
-    // clearly GL_VERTEX_SHADER is an enum !
-    AddShaders(shader, vshader, GL_VERTEX_SHADER);
-    AddShaders(shader, fshader, GL_FRAGMENT_SHADER);
-    
-
-    GLint result = 0;
-    GLchar  elog[1024] = { 0 };
-
-
-    //Linking the shader code.
-    glLinkProgram(shader);
-    //Check the Error (Linking)
-    glGetProgramiv(shader, GL_LINK_STATUS, &result);
-    if (!result) {
-        glGetProgramInfoLog(shader, sizeof(elog), NULL, elog);
-        printf("ERROR LINKING PROGRAM '%s'\n",elog);
-
-    }
-
-
-    //validating the shader code 
-    glValidateProgram(shader); 
-    //checking the error (Validation)
-    glGetProgramiv(shader, GL_VALIDATE_STATUS, &result);
-    if (!result) {
-        glGetProgramInfoLog(shader, sizeof(elog), NULL, elog);
-        printf("ERROR VALIDATING PROGRAM '%s'\n", elog);
-        return;
-
-    }
-
-    uniformModel = glGetUniformLocation(shader, "model"); //Loaction 
-    uniformProjection = glGetUniformLocation(shader, "projection"); //Loaction 
-
-}
-
-void CreateTriange() {
+void CreateObjects() {
 
     unsigned int indices[] =
     {
@@ -147,26 +82,26 @@ void CreateTriange() {
         1.0f ,-1.0f ,0.0f , //index 2
         0.0f ,1.0f ,0.0f ,  //index 3
             };
-    glGenVertexArrays(1, &VAO); //Creating VAO
-    glBindVertexArray(VAO); // binding vertex array
+    
+ // Creating Objects of triangle
+    Mesh* obj1 = new Mesh();
+    obj1->CreateMesh(vertices, indices, 12, 12);
+    meshList.push_back(obj1);
+
+// Creating the Second Object on Screen
+    Mesh* obj2 = new Mesh();
+    obj2->CreateMesh(vertices, indices, 12, 12);
+    meshList.push_back(obj2);
 
 
-    glGenBuffers(1, &IBO);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
+}
 
+void CreateShader() {
+    Shader* shader1 = new Shader();
+    shader1->CreateFromString(vshader, fshader);
+    shaderList.push_back(*shader1);
 
-    glGenBuffers(1, &VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO); //binding buffer
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-    glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,0,0);
-    glEnableVertexAttribArray(0);
-
-    glBindBuffer(GL_ARRAY_BUFFER, 0);//unbinding buffer
-
-    glBindVertexArray(0); //Unbinding vertex array 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 int main(void)
 {
@@ -218,8 +153,10 @@ int main(void)
     glViewport(0, 0, bufferwidth, bufferheight);
     
 
-    CreateTriange();
-    Compileshader();
+    CreateObjects();
+    CreateShader();
+
+    GLuint uniformProjection = 0, unifromModel = 0;
 
     glm::mat4 projection = glm::perspective(45.0f,(GLfloat)bufferwidth/(GLfloat)bufferheight,0.1f,100.0f); 
 
@@ -264,28 +201,35 @@ int main(void)
         glClearColor(0.0f,0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);// Clear the color actually // Clear the depth Buffer Bit
 
-        glUseProgram(shader);
+        shaderList[0].UseShader();
+        uniformModel = shaderList[0].GetModelLocation();
+        uniformModel = shaderList[0].GetProjectionLocation();
+
+
         
          glm::mat4 model; // mat4 = 4x4 matrix
 
         //The way we place this three statement will create different outcomes.
-        model = glm::translate(model, glm::vec3(0.0f,trioffset, -2.5f));
+        model = glm::translate(model, glm::vec3(trioffset,0.0f, -2.5f));
        // model = glm::rotate(model, curAngle * toRadians, glm::vec3(0.0f, 1.0f, 0.0f));
         model = glm::scale(model, glm::vec3(0.4f, 0.4f, 1.0f));
-        
-    
-        
+
 
         //UNIFORM
 
         glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
         glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
 
-        glBindVertexArray(VAO);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IBO);
-        glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, 0);
-        glBindVertexArray(0);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+        //Draw Call
+        meshList[0]->RenderMesh();
+
+        //I guess This is the way to call for second obj
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(-trioffset, 1.0f, -2.5f));
+        model = glm::scale(model, glm::vec3(0.4f, 0.4f, 1.0f));
+        glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+        meshList[1]->RenderMesh();
+        
         glUseProgram(0);
 
         glfwSwapBuffers(window);
