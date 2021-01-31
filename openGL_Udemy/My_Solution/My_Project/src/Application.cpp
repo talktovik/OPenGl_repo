@@ -17,6 +17,7 @@
 
 #include "Mesh.h"
 #include "Shader.h"
+#include "Camera.h"
 
 
 //Window Dimensions 
@@ -81,6 +82,8 @@ void CreateShader() {
     shaderList.push_back(*shader1);
 
 }
+
+//++++++++++++++++++++++ (Main())+++++++++++++++++++++++++++++++++++++++++++
 int main(void)
 {
     mainWindow = Window(800, 600);
@@ -89,7 +92,11 @@ int main(void)
     CreateObjects();
     CreateShader();
 
-    GLuint uniformProjection = 0, uniformModel = 0;
+
+    //Camera Initialisation 
+    camera = Camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), 0.0f, 0.0f, 5.0f, 1.0f);
+
+    GLuint uniformProjection = 0, uniformModel = 0 , uniformView = 0;
      
     glm::mat4 projection = glm::perspective(45.0f,mainWindow.getBufferWidth() / mainWindow.getBufferHeight() ,0.1f,100.0f); 
 
@@ -138,6 +145,9 @@ int main(void)
         shaderList[0].UseShader();
         uniformModel = shaderList[0].GetModelLocation();
         uniformProjection = shaderList[0].GetProjectionLocation();
+
+        //
+        uniformView = 
 
 
         
