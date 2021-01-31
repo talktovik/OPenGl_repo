@@ -1,17 +1,11 @@
-﻿  Application.cpp
+﻿  Window.cpp
 E:\OpenGl\OPenGl_repo\openGL_Udemy\My_Solution\My_Project\src\Window.h(17,36): warning C4244: 'return': conversion from 'GLint' to 'GLfloat', possible loss of data
 E:\OpenGl\OPenGl_repo\openGL_Udemy\My_Solution\My_Project\src\Window.h(18,37): warning C4244: 'return': conversion from 'GLint' to 'GLfloat', possible loss of data
-E:\OpenGl\OPenGl_repo\openGL_Udemy\My_Solution\My_Project\src\Application.cpp(38,20): warning C4305: 'initializing': truncation from 'double' to 'float'
-E:\OpenGl\OPenGl_repo\openGL_Udemy\My_Solution\My_Project\src\Application.cpp(115,29): warning C4390: ';': empty controlled statement found; is this the intent?
-  Window.cpp
-E:\OpenGl\OPenGl_repo\openGL_Udemy\My_Solution\My_Project\src\Window.h(17,36): warning C4244: 'return': conversion from 'GLint' to 'GLfloat', possible loss of data
-E:\OpenGl\OPenGl_repo\openGL_Udemy\My_Solution\My_Project\src\Window.h(18,37): warning C4244: 'return': conversion from 'GLint' to 'GLfloat', possible loss of data
-E:\OpenGl\OPenGl_repo\openGL_Udemy\My_Solution\My_Project\src\Window.cpp(122,22): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
-E:\OpenGl\OPenGl_repo\openGL_Udemy\My_Solution\My_Project\src\Window.cpp(123,22): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
-E:\OpenGl\OPenGl_repo\openGL_Udemy\My_Solution\My_Project\src\Window.cpp(127,28): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
-E:\OpenGl\OPenGl_repo\openGL_Udemy\My_Solution\My_Project\src\Window.cpp(128,40): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
-E:\OpenGl\OPenGl_repo\openGL_Udemy\My_Solution\My_Project\src\Window.cpp(131,21): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
-E:\OpenGl\OPenGl_repo\openGL_Udemy\My_Solution\My_Project\src\Window.cpp(132,21): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
-  Generating Code...
-E:\OpenGl\OPenGl_repo\openGL_Udemy\My_Solution\My_Project\src\Window.cpp(78): warning C4715: 'Window::Initialise': not all control paths return a value
+E:\OpenGl\OPenGl_repo\openGL_Udemy\My_Solution\My_Project\src\Window.cpp(125,22): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+E:\OpenGl\OPenGl_repo\openGL_Udemy\My_Solution\My_Project\src\Window.cpp(126,22): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+E:\OpenGl\OPenGl_repo\openGL_Udemy\My_Solution\My_Project\src\Window.cpp(130,28): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+E:\OpenGl\OPenGl_repo\openGL_Udemy\My_Solution\My_Project\src\Window.cpp(131,40): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+E:\OpenGl\OPenGl_repo\openGL_Udemy\My_Solution\My_Project\src\Window.cpp(134,21): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+E:\OpenGl\OPenGl_repo\openGL_Udemy\My_Solution\My_Project\src\Window.cpp(135,21): warning C4244: '=': conversion from 'double' to 'GLfloat', possible loss of data
+E:\OpenGl\OPenGl_repo\openGL_Udemy\My_Solution\My_Project\src\Window.cpp(81): warning C4715: 'Window::Initialise': not all control paths return a value
   My_Project.vcxproj -> E:\OpenGl\OPenGl_repo\openGL_Udemy\My_Solution\bin\Win32\Debug\My_Project.exe

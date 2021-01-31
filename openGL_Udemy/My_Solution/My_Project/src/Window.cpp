@@ -2,8 +2,8 @@
 
 Window::Window()
 {
-	width = 800;
-	height = 600;
+	width = 1080;
+	height = 720;
 	for (size_t i = 0; i < 1024; i++) {
 		keys[i] = 0;
 	}
@@ -56,7 +56,7 @@ int Window::Initialise()
 
 	//Handle Key+ mouse Inputs
 	createCallbacks();
-	glfwSetInputMode(mainWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	//glfwSetInputMode(mainWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	// Allow modern extension access
 	glewExperimental = GL_TRUE;

@@ -19,9 +19,12 @@
 #include "Shader.h"
 #include "Camera.h"
 
+Camera camera;
+GLfloat deltaTime = 0;
+GLfloat lastTime = 0;
 
 //Window Dimensions 
-const GLint WIDTH = 800, HEiGHT = 600;
+const GLint WIDTH = 1080, HEiGHT = 720;
 Window mainWindow; 
 
 const float toRadians = 3.14159265f/ 180.0f ;
@@ -94,7 +97,7 @@ int main(void)
 
 
     //Camera Initialisation 
-    camera = Camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), 0.0f, 0.0f, 5.0f, 1.0f);
+    camera = Camera(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f, 5.1f, 1.0f);
 
     GLuint uniformProjection = 0, uniformModel = 0 , uniformView = 0;
      
@@ -103,9 +106,18 @@ int main(void)
     //Loop untill window closesd
     while (!mainWindow.getShouldClose())
     {
+
+        //DELTA TIME MEASURING
+
+        GLfloat now = glfwGetTime();   // for sdl its { SDL_GetPerformanceCounter();  }
+        deltaTime = now - lastTime;
+        lastTime = now;
+
         //get+ Handle input events
         // this will care about user interactivity.
         glfwPollEvents();
+        camera.keyControl(mainWindow.getKeys(),deltaTime);
+        camera.mouseControl(mainWindow.getXchange(),mainWindow.getYchange());
 
         if (direction) {
         
@@ -146,8 +158,8 @@ int main(void)
         uniformModel = shaderList[0].GetModelLocation();
         uniformProjection = shaderList[0].GetProjectionLocation();
 
-        //
-        uniformView = 
+        //have to make a new function for that
+        uniformView = shaderList[0].GetViewLocation();
 
 
         
@@ -163,6 +175,7 @@ int main(void)
 
         glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
         glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
+        glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(camera.calculateViewMatrix()));
 
         //Draw Call
         meshList[0]->RenderMesh();
