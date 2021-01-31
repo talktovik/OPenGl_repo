@@ -7,6 +7,9 @@ Window::Window()
 	for (size_t i = 0; i < 1024; i++) {
 		keys[i] = 0;
 	}
+	//Just to remove the garbage value from the xchnage and ychange
+	xChange = 0.0f;
+	yChange = 0.0f;
 }
 
 Window::Window(GLint windowWidth, GLint windowHeight)
