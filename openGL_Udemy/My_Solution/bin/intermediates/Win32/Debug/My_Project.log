@@ -1,5 +1,5 @@
 ﻿  Window.cpp
 E:\OpenGl\OPenGl_repo\openGL_Udemy\My_Solution\My_Project\src\Window.h(17,36): warning C4244: 'return': conversion from 'GLint' to 'GLfloat', possible loss of data
 E:\OpenGl\OPenGl_repo\openGL_Udemy\My_Solution\My_Project\src\Window.h(18,37): warning C4244: 'return': conversion from 'GLint' to 'GLfloat', possible loss of data
-E:\OpenGl\OPenGl_repo\openGL_Udemy\My_Solution\My_Project\src\Window.cpp(64): warning C4715: 'Window::Initialise': not all control paths return a value
+E:\OpenGl\OPenGl_repo\openGL_Udemy\My_Solution\My_Project\src\Window.cpp(77): warning C4715: 'Window::Initialise': not all control paths return a value
   My_Project.vcxproj -> E:\OpenGl\OPenGl_repo\openGL_Udemy\My_Solution\bin\Win32\Debug\My_Project.exe

@@ -21,7 +21,7 @@
 
 //Window Dimensions 
 const GLint WIDTH = 800, HEiGHT = 600;
-Window mainWindow;
+Window mainWindow; 
 
 const float toRadians = 3.14159265f/ 180.0f ;
 std::vector<Mesh*>meshList;

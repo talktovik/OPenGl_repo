@@ -22,10 +22,20 @@ public:
 	void swapBuffers() { return glfwSwapBuffers(mainWindow); }
 
 	~Window();
+
+private:
 	GLFWwindow* mainWindow;
 
 	GLint width, height;
 	GLint bufferWidth, bufferHeight;
 
+
+	bool keys[1024];
+
+
+	//for the camera
+	void createCallbacks();
+
+	static void handleKeys(GLFWwindow* window, int key, int code, int action, int mode);
 };
 
